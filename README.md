@@ -101,6 +101,39 @@ At minimim, you only need to supply the event path to the music event to play it
 studio.PlayMusic("event:/myMusic", start: true, fadeCurrent: true);
 ```
 
+## VCA and Bus volumes
+You can get and/or set the volume level of VCAs and Buses using the appropraite methods for them
+
+```cs
+//  Set the volume of a VCA
+studio.SetVCAVolume("vca:/myVca", 1.0f);
+
+//  Get the volume of a VCA
+float vcaVolum e = studio.GetVCAVolume("vca:/myVca");
+
+//  Set the volume of a Bus
+studio.SetBusVolume("bus:/myBus", 1.0f);
+
+//  Get the volume of a Bus
+float busVolume = studio.GetBusVolume("bus:/myBus);
+```
+
+Buses also offer some additional utility for pausing and muting
+
+```cs
+//  Mute a bus
+studio.SetBusMute("bus:/myBus", true);
+
+//  Unmute bus
+studio.SetBusMute("bus:/myBus", false);
+
+//  Pause a bus
+studio.SetBusPause("bus:/myBus", true);
+
+//  Unpause bus
+studio.SetBusPause("bus:/myBus", false);
+```
+
 ## Additional Utility Methods
 There are additionaly utility methods provided in the `TinyFmod.FmodStudio` class, all of which are well documented within the code and provide detailed intellesense when using them.  I will provided documentation on them at a future time, for now, please refer to the source code.
 

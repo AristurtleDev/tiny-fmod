@@ -500,10 +500,7 @@ public struct System(IntPtr ptr)
         return FMOD_Studio_System_SetParameterByIDWithLabel(this.handle, id, encoder.byteFromStringUTF8(label), ignoreseekspeed);
     }
     public readonly RESULT setParametersByIDs(PARAMETER_ID[] ids, float[] values, int count, bool ignoreseekspeed = false) => FMOD_Studio_System_SetParametersByIDs(this.handle, ids, values, count, ignoreseekspeed);
-    public readonly RESULT getParameterByName(string name, out float value)
-    {
-        return getParameterByName(name, out value, out float finalValue);
-    }
+    public readonly RESULT getParameterByName(string name, out float value) => getParameterByName(name, out value, out _);
     public readonly RESULT getParameterByName(string name, out float value, out float finalvalue)
     {
         using StringHelper.ThreadSafeEncoding encoder = StringHelper.GetFreeHelper();
@@ -601,7 +598,7 @@ public struct System(IntPtr ptr)
         }
         if (capacity == 0)
         {
-            array = new Bank[0];
+            array = [];
             return result;
         }
 
@@ -932,7 +929,7 @@ public struct EventDescription(IntPtr ptr)
         }
         if (capacity == 0)
         {
-            array = new EventInstance[0];
+            array = [];
             return result;
         }
 
@@ -1073,10 +1070,7 @@ public struct EventInstance(IntPtr ptr)
     public readonly RESULT getMinMaxDistance(out float min, out float max) => FMOD_Studio_EventInstance_GetMinMaxDistance(this.handle, out min, out max);
     public readonly RESULT release() => FMOD_Studio_EventInstance_Release(this.handle);
     public readonly RESULT isVirtual(out bool virtualstate) => FMOD_Studio_EventInstance_IsVirtual(this.handle, out virtualstate);
-    public readonly RESULT getParameterByID(PARAMETER_ID id, out float value)
-    {
-        return getParameterByID(id, out value, out float finalvalue);
-    }
+    public readonly RESULT getParameterByID(PARAMETER_ID id, out float value) => getParameterByID(id, out value, out _);
     public readonly RESULT getParameterByID(PARAMETER_ID id, out float value, out float finalvalue) => FMOD_Studio_EventInstance_GetParameterByID(this.handle, id, out value, out finalvalue);
     public readonly RESULT setParameterByID(PARAMETER_ID id, float value, bool ignoreseekspeed = false) => FMOD_Studio_EventInstance_SetParameterByID(this.handle, id, value, ignoreseekspeed);
     public readonly RESULT setParameterByIDWithLabel(PARAMETER_ID id, string label, bool ignoreseekspeed = false)
@@ -1085,10 +1079,7 @@ public struct EventInstance(IntPtr ptr)
         return FMOD_Studio_EventInstance_SetParameterByIDWithLabel(this.handle, id, encoder.byteFromStringUTF8(label), ignoreseekspeed);
     }
     public readonly RESULT setParametersByIDs(PARAMETER_ID[] ids, float[] values, int count, bool ignoreseekspeed = false) => FMOD_Studio_EventInstance_SetParametersByIDs(this.handle, ids, values, count, ignoreseekspeed);
-    public readonly RESULT getParameterByName(string name, out float value)
-    {
-        return getParameterByName(name, out value, out float finalValue);
-    }
+    public readonly RESULT getParameterByName(string name, out float value) => getParameterByName(name, out value, out _);
     public readonly RESULT getParameterByName(string name, out float value, out float finalvalue)
     {
         using StringHelper.ThreadSafeEncoding encoder = StringHelper.GetFreeHelper();
@@ -1232,10 +1223,7 @@ public struct Bus(IntPtr ptr)
         return result;
 
     }
-    public readonly RESULT getVolume(out float volume)
-    {
-        return getVolume(out volume, out float finalVolume);
-    }
+    public readonly RESULT getVolume(out float volume) => getVolume(out volume, out _);
     public readonly RESULT getVolume(out float volume, out float finalvolume) => FMOD_Studio_Bus_GetVolume(this.handle, out volume, out finalvolume);
     public readonly RESULT setVolume(float volume) => FMOD_Studio_Bus_SetVolume(this.handle, volume);
     public readonly RESULT getPaused(out bool paused) => FMOD_Studio_Bus_GetPaused(this.handle, out paused);
@@ -1325,10 +1313,7 @@ public struct VCA(IntPtr ptr)
         Marshal.FreeHGlobal(stringMem);
         return result;
     }
-    public readonly RESULT getVolume(out float volume)
-    {
-        return getVolume(out volume, out float finalVolume);
-    }
+    public readonly RESULT getVolume(out float volume) => getVolume(out volume, out _);
     public readonly RESULT getVolume(out float volume, out float finalvolume) => FMOD_Studio_VCA_GetVolume(this.handle, out volume, out finalvolume);
     public readonly RESULT setVolume(float volume) => FMOD_Studio_VCA_SetVolume(this.handle, volume);
 
@@ -1463,7 +1448,7 @@ public struct Bank(IntPtr ptr)
         }
         if (capacity == 0)
         {
-            array = new Bus[0];
+            array = [];
             return result;
         }
 
@@ -1497,7 +1482,7 @@ public struct Bank(IntPtr ptr)
         }
         if (capacity == 0)
         {
-            array = new VCA[0];
+            array = [];
             return result;
         }
 

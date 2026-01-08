@@ -4,13 +4,13 @@ namespace TinyFmod;
 ///     A tiny wrapper around the FMOD Studio API that exposes common utility
 ///     functions for using the FMOD Studio API.
 /// </summary>
-public sealed class FmodStudio
+public sealed class FmodStudio : IDisposable
 {
     //  All banks that have been loaded and told to cache.
-    private Dictionary<string, FMOD.Studio.Bank> _cachedBanks = new();
+    private readonly Dictionary<string, FMOD.Studio.Bank> _cachedBanks = [];
 
     //  Cache reference to event descriptions that are loaded
-    private Dictionary<string, FMOD.Studio.EventDescription> _events = new();
+    private readonly Dictionary<string, FMOD.Studio.EventDescription> _events = [];
 
     //  The underlying FMOD Studio System instance.
     private readonly FMOD.Studio.System _studio;
@@ -34,18 +34,9 @@ public sealed class FmodStudio
     /// <exception cref="InvalidOperationException">
     ///     Thrown if the handle for the FMOD Studio System has been released.
     /// </exception>
-    public FMOD.Studio.System StudioSystem
-    {
-        get
-        {
-            if (!_studio.hasHandle())
-            {
-                throw new InvalidOperationException("Underlying FMOD Studio System handle has been released");
-            }
-
-            return _studio;
-        }
-    }
+    public FMOD.Studio.System StudioSystem => !_studio.hasHandle()
+                ? throw new InvalidOperationException("Underlying FMOD Studio System handle has been released")
+                : _studio;
 
     /// <summary>
     ///     Gets the reference to the underlying FMOD Core System instance.
@@ -53,18 +44,7 @@ public sealed class FmodStudio
     /// <exception cref="InvalidOperationException">
     ///     Thrown if the handle for the FMOD Core System has been released.
     /// </exception>
-    public FMOD.System CoreSystem
-    {
-        get
-        {
-            if (!_core.hasHandle())
-            {
-                throw new InvalidOperationException("Underlying FMOD System handle has been released");
-            }
-
-            return _core;
-        }
-    }
+    public FMOD.System CoreSystem => !_core.hasHandle() ? throw new InvalidOperationException("Underlying FMOD System handle has been released") : _core;
 
     /// <summary>
     ///     Gets the <see cref="FMOD.Studio.EventInstance"/> of the current
@@ -875,12 +855,7 @@ public sealed class FmodStudio
 
         //  If the state is "playing" or if the state is "starting" then
         //  it is considered playing
-        if (state == FMOD.Studio.PLAYBACK_STATE.PLAYING || state == FMOD.Studio.PLAYBACK_STATE.STARTING)
-        {
-            return true;
-        }
-
-        return false;
+        return state is FMOD.Studio.PLAYBACK_STATE.PLAYING or FMOD.Studio.PLAYBACK_STATE.STARTING;
     }
 
     /// <summary>
@@ -1173,7 +1148,7 @@ public sealed class FmodStudio
         //  We can't remove items from the dictionary while we also iterate the
         //  dictionary, so we'll use this list as a temporary holder for all
         //  event descriptions that have no active instances
-        List<string> unused = new();
+        List<string> unused = [];
 
         //  Go through all event descriptions in the cache dictionary...
         foreach (KeyValuePair<string, FMOD.Studio.EventDescription> kvp in _events)
